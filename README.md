@@ -1,7 +1,9 @@
 spect
 -----
 
-Categorize the members of a python object.
+Categorize the items of a python object.
+
+Essentially filters Python's `dir()` built-in for a given object nicely. Might become a `dir()` pretty printer on steroids at some point. Can be nice for quick interactive debugging / introspecting.
 
 
 Usage
@@ -12,11 +14,8 @@ import spect
 import re
 
 respect = spect(re)
-print(respect.dunder)
-print(respect.private)
-# output:
-# {'__all__', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__', '__version__'}
-# {'_compile', '_locale', '_alphanum_bytes', '_expand', '_alphanum_str', '_MAXCACHE', '_pickle', '_subx', '_pattern_type', '_compile_repl', '_cache'}
+print(respect.dunder)  # {'__all__', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__', '__version__'}
+print(respect.private)  # {'_compile', '_locale', '_alphanum_bytes', '_expand', '_alphanum_str', '_MAXCACHE', '_pickle', '_subx', '_pattern_type', '_compile_repl', '_cache'}
 ```
 
 So far it knows these categories:
@@ -36,10 +35,10 @@ The categories can be combined and are sets (as are their combinations):
 
    ```python
    x = spect(...)
-   (x.dunder | x.superprivate) & x.const
+   (x.dunder | x.superprivate) & x.const == x.const_dunder_superprivate   # True
    ```
 
- - _prinvate_alias_: alias or private, i.e. `x.alias | x.private`
+ - _private_alias_: alias or private, i.e. `x.alias | x.private`
 
 
 Installation
