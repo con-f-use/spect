@@ -54,6 +54,7 @@ ToDo
 ----
 
  - Make Python 2 compatible (maybe)
- - Write tests for the basic functionality
+ - Convert basic tests to pytest ones
  - Auto-build, test and upload to pypi on commit
+ - Ponder getting magic methods from a list (version dependent!)
  - Think about `callable` and Python 3.0 to 3.2 where it was deprecated

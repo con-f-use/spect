@@ -44,7 +44,7 @@ class Spect(object):
             category = mem.lastgroup
             self.__dict__[category].append(mem[category])
 
-        self.magic = filter(lambda x: callable(obj.__dict__[x]), self.dunder)
+        self.magic = filter(lambda x: callable(getattr(obj, x)), self.dunder)
 
         for category in self.categories:
             self.__dict__[category] = set(self.__dict__[category])
@@ -53,3 +53,14 @@ class Spect(object):
     def const(self):
         upper = lambda s: s == s.upper() and s.strip("_")
         return set(filter(upper, self.dir))
+
+
+if __name__ == "__main__":
+    print('Basic tests...')
+    sre = Spect(re)
+    assert '__doc__' in sre.dunder
+    assert 'match' in sre.regular
+    assert '_MAXCACHE' in sre.const_private
+    assert sre.const - sre.regular == {'_MAXCACHE'}
+    assert '__getattr__' in Spect(sre).magic
+    print('Done.')
