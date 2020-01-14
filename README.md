@@ -26,13 +26,13 @@ So far it knows these categories:
  - _dunder_: `__varname__`
  - _private_: `_varname`
  - _superprivate_: `__varname`
- - _general_: an alias for _regular_
- - _magic_: double underscore delimetered (dunder) and callable
+ - _general_: an alias for _regular_, so `varname` as well
+ - _magic_: double underscore delimitered (dunder) and callable (e.g. `__init__`)
  - _const_: any of the above as long as it has letters and all of them are uppercase (e.g. `_MAXCACHE`)
 
 The categories can be combined and are sets (as are their combinations):
 
- - _const_dunder_superprivate_: all that are either double underscore delimetered
+ - _const_dunder_superprivate_: all that are either double underscore delimitered
    or superprivate and contain no lower case letters. That is equivalent to:
 
    ```python
@@ -57,5 +57,5 @@ ToDo
  - Make Python 2 compatible (maybe)
  - Convert basic tests to pytest ones
  - Auto-build, test and upload to pypi on commit
- - Ponder getting magic methods from a list (version dependent!)
+ - Ponder getting magic methods from a list (version dependent! hard to future prove! but no false positives)
  - Think about `callable` and Python 3.0 to 3.2 where it was deprecated
