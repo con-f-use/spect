@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import re
+import re, time
 from setuptools import setup
 
 try:
@@ -18,7 +18,7 @@ setup(
     description=description,
     long_description=README,
     long_description_content_type='text/markdown',
-    use_scm_version=True,
+    use_scm_version=dict(local_scheme=lambda *_, **__: str(int(time.time()))),
     setup_requires=["setuptools_scm"],
     include_package_data=True,
     zip_safe=True,
