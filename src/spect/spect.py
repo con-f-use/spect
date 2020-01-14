@@ -8,7 +8,9 @@ class Spect:
         >>> import re
         >>> repsect = Spect(re)
         >>> 'doc' in respect.dunder
+        True
         >>> 'match' in respect.regular
+        True
     """
 
     categorizer = re.compile(
