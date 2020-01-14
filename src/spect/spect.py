@@ -25,7 +25,7 @@ class Spect(object):
     def __getattr__(self, attr):
         components = attr.split("_")
         if any(c not in self.categories + ["const"] for c in components):
-            raise ValueError(
+            raise AttributeError(
                 "'{}' as no attribute '{}'".format(self.__class__.__name__, attr)
             )
         const = self.const if "const" in components else self.dir
