@@ -6,7 +6,7 @@ class Spect(object):
 
     Examples:
         >>> import re
-        >>> repsect = Spect(re)
+        >>> repsect = Spect(re)  # The pun is strong in that one
         >>> '__doc__' in respect.dunder
         True
         >>> 'match' in respect.regular
@@ -20,7 +20,7 @@ class Spect(object):
         r"(?P<alias>[a-zA-Z]\w*_)|"
         r"(?P<regular>[a-zA-Z]\w*)"
     )
-    categories = list(categorizer.groupindex.keys()) + ["magic"]
+    categories = list(categorizer.groupindex.keys()) + ["magic", "general"]
 
     def __getattr__(self, attr):
         components = attr.split("_")
@@ -45,6 +45,7 @@ class Spect(object):
             self.__dict__[category].append(mem[category])
 
         self.magic = filter(lambda x: callable(getattr(obj, x)), self.dunder)
+        self.general = self.regular  # Salute to private & superprivate theme
 
         for category in self.categories:
             self.__dict__[category] = set(self.__dict__[category])

@@ -20,11 +20,13 @@ print(respect.private)  # {'_compile', '_locale', '_alphanum_bytes', '_expand', 
 
 So far it knows these categories:
 
- - _private_: `_varname`
- - _superprivate_: `__varname`
+- _regular_: `varname`
+
  - _alias_: `varname_`
  - _dunder_: `__varname__`
- - _regular_: `varname`
+ - _private_: `_varname`
+ - _superprivate_: `__varname`
+ - _general_: an alias for _regular_
  - _magic_: double underscore delimetered (dunder) and callable
  - _const_: any of the above as long as it has letters and all of them are uppercase (e.g. `_MAXCACHE`)
 
