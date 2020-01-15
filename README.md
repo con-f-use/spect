@@ -3,7 +3,7 @@ spect
 
 Categorize the items of a python object.
 
-Essentially filters Python's `dir()` built-in for a given object nicely. Might become a `dir()` pretty printer on steroids at some point. Can be nice for quick interactive debugging / introspecting.
+Essentially filters Python's [dir()](https://docs.python.org/3/library/functions.html#dir) built-in for a given object nicely. Might become a `dir()` pretty printer on steroids at some point. Can be nice for quick interactive debugging / introspecting.
 
 
 Usage
