@@ -13,13 +13,13 @@ class Spect(object):
         True
     """
 
-    upper = re.compile(r"[_0-9]*[A-Z][A-Z0-9_]*")
+    upper = re.compile(r"^[_0-9]*[A-Z][A-Z0-9_]*$")
     categorizer = re.compile(
-        r"(?P<dunder>__\w+__)|"
+        r"^(?P<dunder>__\w+__)|"
         r"(?P<superprivate>__\w+)|"
         r"(?P<private>_\w+)|"
         r"(?P<alias>[a-zA-Z]\w*_)|"
-        r"(?P<regular>[a-zA-Z]\w*)"
+        r"(?P<regular>[a-zA-Z]\w*)$"
     )
     categories = list(categorizer.groupindex.keys()) + ["magic", "general"]
 
@@ -27,19 +27,15 @@ class Spect(object):
         self.obj = obj
         self.dir = set(dir(obj))
 
-        for category in self.categories:
-            self.__dict__[category] = []
+        self.__dict__.update({k: set() for k in self.categories})
 
-        for mem in map(self.categorizer.fullmatch, self.dir):
+        for mem in map(self.categorizer.match, self.dir):
             category = mem.lastgroup
-            self.__dict__[category].append(mem[category])
+            self.__dict__[category].add(mem.group(category))
 
-        self.magic = filter(lambda x: callable(getattr(obj, x)), self.dunder)
+        self.magic = set(filter(lambda x: callable(getattr(obj, x)), self.dunder))
+        self.const = set(filter(self.upper.match, self.dir))
         self.general = self.regular  # Salute to the private & superprivate
-        self.const = set(filter(self.upper.fullmatch, self.dir))
-
-        for category in self.categories:
-            self.__dict__[category] = set(self.__dict__[category])
 
     def __getattr__(self, attr):
         components = attr.split("_")
