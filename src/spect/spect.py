@@ -13,6 +13,7 @@ class Spect(object):
         True
     """
 
+    upper = re.compile(r"[_0-9]*[A-Z][A-Z0-9_]*")
     categorizer = re.compile(
         r"(?P<dunder>__\w+__)|"
         r"(?P<superprivate>__\w+)|"
@@ -35,6 +36,7 @@ class Spect(object):
 
         self.magic = filter(lambda x: callable(getattr(obj, x)), self.dunder)
         self.general = self.regular  # Salute to the private & superprivate
+        self.const = set(filter(self.upper.fullmatch, self.dir))
 
         for category in self.categories:
             self.__dict__[category] = set(self.__dict__[category])
@@ -49,11 +51,6 @@ class Spect(object):
         components = [self.__dict__[x] for x in components if x != "const"]
         union = functools.reduce(lambda r, l: r | l, components)
         return union & const
-
-    @property
-    def const(self):
-        upper = re.compile(r"[_0-9]*[A-Z][A-Z0-9_]*")
-        return set(filter(upper.fullmatch, self.dir))
 
 
 if __name__ == "__main__":
