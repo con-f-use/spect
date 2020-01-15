@@ -34,7 +34,7 @@ class Spect(object):
             self.__dict__[category].append(mem[category])
 
         self.magic = filter(lambda x: callable(getattr(obj, x)), self.dunder)
-        self.general = self.regular  # Salute to private & superprivate theme
+        self.general = self.regular  # Salute to the private & superprivate
 
         for category in self.categories:
             self.__dict__[category] = set(self.__dict__[category])
@@ -52,8 +52,8 @@ class Spect(object):
 
     @property
     def const(self):
-        upper = lambda s: s == s.upper() and re.sub(r"[0-9_]*", "", s)
-        return set(filter(upper, self.dir))
+        upper = re.compile(r"[_0-9]*[A-Z][A-Z0-9_]*")
+        return set(filter(upper.fullmatch, self.dir))
 
 
 if __name__ == "__main__":
