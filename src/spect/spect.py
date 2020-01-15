@@ -22,17 +22,6 @@ class Spect(object):
     )
     categories = list(categorizer.groupindex.keys()) + ["magic", "general"]
 
-    def __getattr__(self, attr):
-        components = attr.split("_")
-        if any(c not in self.categories + ["const"] for c in components):
-            raise AttributeError(
-                "'{}' as no attribute '{}'".format(self.__class__.__name__, attr)
-            )
-        const = self.const if "const" in components else self.dir
-        components = [self.__dict__[x] for x in components if x != "const"]
-        union = functools.reduce(lambda r, l: r | l, components)
-        return union & const
-
     def __init__(self, obj):
         self.obj = obj
         self.dir = set(dir(obj))
@@ -50,9 +39,20 @@ class Spect(object):
         for category in self.categories:
             self.__dict__[category] = set(self.__dict__[category])
 
+    def __getattr__(self, attr):
+        components = attr.split("_")
+        if any(c not in self.categories + ["const"] for c in components):
+            raise AttributeError(
+                "'{}' has no attribute '{}'".format(self.__class__.__name__, attr)
+            )
+        const = self.const if "const" in components else self.dir
+        components = [self.__dict__[x] for x in components if x != "const"]
+        union = functools.reduce(lambda r, l: r | l, components)
+        return union & const
+
     @property
     def const(self):
-        upper = lambda s: s == s.upper() and s.strip("_")
+        upper = lambda s: s == s.upper() and re.sub(r"[0-9_]*", "", s)
         return set(filter(upper, self.dir))
 
 
