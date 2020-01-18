@@ -1,6 +1,17 @@
-/build
-/dist
+*.py[cod]
 __pycache__/
-*.egg-info
+dist/
+build/
+*.egg-info/
 .eggs/
+_version.py
+pip-wheel-metadata/
+.tox/
+.cache/
+.coverage
+.hypothesis/
+.vscode/
+.envrc
+.direnv/
+.isort.cfg
 
