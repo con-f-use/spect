@@ -1,4 +1,5 @@
 import re, functools
+from pprint import pformat
 
 
 class Spect(object):
@@ -15,11 +16,11 @@ class Spect(object):
 
     upper = re.compile(r"^[_0-9]*[A-Z][A-Z0-9_]*$")
     categorizer = re.compile(
-        r"^(?P<dunder>__\w+__)|"
-        r"(?P<superprivate>__\w+)|"
-        r"(?P<private>_\w+)|"
-        r"(?P<alias>[a-zA-Z]\w*_)|"
-        r"(?P<regular>[a-zA-Z]\w*)$"
+        r"(?P<dunder>^__\w+__$)|"
+        r"(?P<superprivate>^__\w+$)|"
+        r"(?P<private>^_\w+$)|"
+        r"(?P<alias>^[a-zA-Z]\w*_$)|"
+        r"(?P<regular>^[a-zA-Z]\w*$)"
     )
     categories = list(categorizer.groupindex.keys()) + ["magic", "general"]
 
@@ -48,6 +49,16 @@ class Spect(object):
         union = functools.reduce(lambda r, l: r | l, components)
         return union & const
 
+    def __repr__(self):
+        data = {
+            k: self.__dict__[k]
+            for k in self.categories
+            if k != "general" and self.__dict__[k]
+        }
+        return "{} ({}) attributes:\n{}".format(
+            self.obj.__name__, self.obj.__class__.__name__, pformat(data, compact=True)
+        )
+
 
 if __name__ == "__main__":
     print('Basic tests...')
@@ -57,4 +68,5 @@ if __name__ == "__main__":
     assert '_MAXCACHE' in sre.const_private
     assert sre.const - sre.regular == {'_MAXCACHE'}
     assert '__getattr__' in Spect(sre).magic
+    print(repr(sre))
     print('Done.')
