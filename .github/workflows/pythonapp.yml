@@ -17,8 +17,9 @@ jobs:
           python -m pip install --upgrade pip setuptools wheel
       - name: build wheel
         run: |
-          rm -rf ./dist/ ./build/ ./.eggs/ ./src/*.egg-info/
-          python3 ./setup.py bdist_wheel
+          ./setup.py clean --all
+          rm -rf scr/*.egg-info/
+          ./setup.py bdist_wheel
       - name: install wheel
         run: |
           pip install -U ./dist/*.whl
