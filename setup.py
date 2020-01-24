@@ -29,5 +29,6 @@ setup(
         "Intended Audience :: Developers",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
+        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     ],
 )
