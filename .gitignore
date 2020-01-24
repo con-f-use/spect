@@ -8,6 +8,7 @@ _version.py
 pip-wheel-metadata/
 .tox/
 .cache/
+.pytest_cache/
 .coverage
 .hypothesis/
 .vscode/

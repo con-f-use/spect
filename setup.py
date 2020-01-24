@@ -10,20 +10,21 @@ except ImportError:
 
 
 class Clean(_clean):
-    def run(self, *ar, **kw):
+    def run(self):
         super(Clean, self).run()
+        remove = lambda l: not self.dry_run and [shutil.rmtree(d, True) for d in l]
         for pkgdir in self.distribution.package_dir.values():
-            for dir_ in glob.glob(os.path.join(pkgdir, "*.egg-info")):
-                if not self.dry_run and os.path.exists(dir_):
-                    shutil.rmtree(dir_)
+            remove(glob.glob(os.path.join(pkgdir, "*.egg-info")))
+        if self.all:
+            remove(['dist', '.eggs'])
 
 def docu(docu_file="README.md"):
     with open(docu_file) as fh:
         readme = fh.read()
     return dict(
-        description=next(s for s in readme.splitlines()[2:] if re.match(r"^\w", s)), 
         long_description=readme,
         long_description_content_type=mimetypes.guess_type(docu_file)[0],
+        description=next(s for s in readme.splitlines()[2:] if re.match(r"^\w", s)), 
     )
 
 setup(
