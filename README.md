@@ -66,3 +66,5 @@ ToDo
    - Think about the use `callable` for Python versions 3.0 to 3.2 where `callable` was deprecated
  - Maybe add a filter for `snake_case`, `camelCase` and `PascalCase`
    (`kebab-case` does not make for valid variable names)
+ - Recursive search in sub-contexts and maybe global for value and object
+   name
